@@ -25,7 +25,7 @@ else:
     print(f"E. Comissão de vendas          {cv:6.2f} | {(cv * 100) / pv:6.2f}%")
     print(f"F. Impostos                    {iv:6.2f} | {(iv * 100) / pv:6.2f}%")
     print(f"G. Outros custos               {cf + cv + iv:6.2f} | {((cf + cv + iv) * 100) / pv:6.2f}%")
-    print(f"H. Rentabilidade               {(pv - cp) - (cf + cv + iv):6.2f} | {(cv * 100) / pv:6.2f}%")
+    print(f"H. Rentabilidade               {(pv - cp) - (cf + cv + iv):6.2f} | {(((pv - cp) - (cf + cv + iv))*100) / pv:6.2f}%")
     
     if(ml>20):
         print('-'*45)
