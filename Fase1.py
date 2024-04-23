@@ -8,8 +8,6 @@ iv = float(input("Digite a porcentagem de impostos: "))
 ml = float(input("Digite a margem de lucro estipulada: "))
 
 pv = cp / (1 - ((cf + cv + iv + ml)/100))
-lucro_real = ml
-lucro_pcpv = pv / cp - 100
 
 if(pv<=0):
     print('-'*45)
