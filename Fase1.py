@@ -17,23 +17,22 @@ if(pv<=0):
 else:
     print('-'*45)
     print(f"Descrição                      {'Valor':6} | {'  %':6}")
-    print(f"A. Preço de venda              {pv:6.2f} | {'100.00%':6}")
+    print(f"A. Preço de venda              {pv:6.2f} | {'   100%':6}")
     print(f"B. Custo de aquisição          {cp:6.2f} | {(cp * 100) / pv:6.2f}%")
     print(f"C. Receita Bruta               {pv - cp:6.2f} | {100 - ((cp * 100) / pv):6.2f}%")
     print(f"D. Custo fixo/Administrativo   {(pv * cf) / 100:6.2f} | {cf:6.2f}%")
-    print(f"D. Custo fixo/administrativo   {cf:6.2f} | {(cf * 100) / pv:6.2f}%")
-    print(f"E. Comissão de vendas          {cv:6.2f} | {(cv * 100) / pv:6.2f}%")
-    print(f"F. Impostos                    {iv:6.2f} | {(iv * 100) / pv:6.2f}%")
-    print(f"G. Outros custos               {cf + cv + iv:6.2f} | {((cf + cv + iv) * 100) / pv:6.2f}%")
-    print(f"H. Rentabilidade               {(pv - cp) - (cf + cv + iv):6.2f} | {(((pv - cp) - (cf + cv + iv))*100) / pv:6.2f}%")
-    
+    print(f"E. Comissão de vendas          {(pv * cv) / 100:6.2f} | {cv:6.2f}%")
+    print(f"F. Impostos                    {(pv * iv) / 100:6.2f} | {iv:6.2f}%")
+    print(f"G. Outros custos               {((pv * cf) / 100) + ((pv * cv) / 100) + ((pv * iv) / 100):6.2f} | {(cf + cv + iv):6.2f}%")
+    print(f"H. Rentabilidade               {(pv * (ml / 100)):6.2f} | {(ml):6.2f}%")
+
     if(ml>20):
         print('-'*45)
         print('Lucro alto')
-    elif(10<ml<=20):
+    elif(ml > 10 and ml<=20):
         print('-'*45)
         print('Lucro médio')
-    elif(0<ml<=10):
+    elif(ml > 0 and ml<=10):
         print('-'*45)
         print('Lucro baixo')
     elif(ml==0):
