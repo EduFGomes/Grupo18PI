@@ -16,7 +16,7 @@ def convr(nome):
                 par = [cifra_hill[nome[i]], cifra_hill[nome[i + 1]]]
                 i += 2
             else:
-                par = [cifra_hill[nome[i]], cifra_hill['x']]  # 'x' para padding
+                par = [cifra_hill[nome[i]], cifra_hill['x']] 
                 i += 1
             cifras.append(par)
         else:
@@ -43,42 +43,10 @@ def cripto(nome, chave):
         cifrado += chr(multip[0][0] + 97) + chr(multip[1][0] + 97)
     return cifrado
 
-def inv(matriz):
-    det = matriz[0][0] * matriz[1][1] - matriz[0][1] * matriz[1][0]
-    det = det % 26
-    invdet = 1
-    
-    for i in range(26):
-        if (det * i) % 26 == 1:
-            invdet = i
-            break
-    
-    matrizinv = [
-        [matriz[1][1] * invdet % 26, -matriz[0][1] * invdet % 26],
-        [-matriz[1][0] * invdet % 26, matriz[0][0] * invdet % 26]
-    ]
-    
-    for i in range(2):
-        for j in range(2):
-            matrizinv[i][j] = matrizinv[i][j] % 26
-    
-    return matrizinv
-
-def descripto(textocripto, chave):
-    lista = convr(textocripto)
-    chaveinv = inv(chave)
-    texto = ""
-    for par in lista:
-        multip = matrz(chaveinv, [[par[0]], [par[1]]])
-        texto += chr(multip[0][0] + 97) + chr(multip[1][0] + 97)
-    return texto
 
 nome = input('Insira uma frase: ')
 
 textocripto = cripto(nome, matriz_cod)
 print("Texto cifrado:", textocripto)
-
-textodescripto = descripto(textocripto, matriz_cod)
-print("Texto descriptografado:", textodescripto)
 
 print(convr(nome))
