@@ -1,0 +1,41 @@
+cifra_hill = {
+    'a': 0, 'b': 1, 'c': 2, 'd': 3, 'e': 4, 'f': 5, 'g': 6, 'h': 7, 'i': 8, 'j': 9,
+    'k': 10, 'l': 11, 'm': 12, 'n': 13, 'o': 14, 'p': 15, 'q': 16, 'r': 17, 's': 18,
+    't': 19, 'u': 20, 'v': 21, 'w': 22, 'x': 23, 'y': 24, 'z': 25
+}
+matriz_cod = [[1, 2], [3, 4]]
+
+#trocar de texto pra cifra
+def convr(nome):
+    nome = nome.replace(" ", "").lower()
+    cifras = []
+    for i in range(0, len(nome), 2):
+        if i+1 < len(nome):
+            par = [cifra_hill[nome[i]], cifra_hill[nome[i + 1]]]
+            cifras.append(par)
+    return cifras
+
+# multiplicacao
+def matrz(m1, m2):
+    resp = []
+    for i in range(len(m1)):
+        linha = []
+        for j in range(len(m2[0])):
+            soma = 0
+            for k in range(len(m2)):
+                soma += m1[i][k] * m2[k][j]
+            linha.append(soma % 26)
+        resp.append(linha)
+    return resp
+
+# funcao criptografia
+def cripto(nome, chave):
+    lista = convr(nome)
+    cifrado = ""
+    for par in lista:
+        multip = matrz(chave, [[par[0]], [par[1]]])
+        cifrado += str(multip[0][0] + 97) + str(multip[1][0] + 97) 
+    return cifrado
+
+textocripto = cripto(nome, matriz_cod)
+print("texto cifrado:", textocripto)
