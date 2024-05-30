@@ -1,6 +1,12 @@
 cifra_hill = "abcdefghijklmnopqrstuvwxyz"
 chaveinv = [[42, -63],[-21, 84]]
 
+def multip(matriz, pares):
+    return [
+        (matriz[0][0] * pares[0] + matriz[0][1] * pares[1]) % 26,
+        (matriz[1][0] * pares[0] + matriz[1][1] * pares[1]) % 26
+    ]
+
 def descriptografia(cripto, cifra_hill, chaveinv): 
     pares = []
     for i in range(0, len(cripto), 2):
