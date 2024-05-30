@@ -1,6 +1,13 @@
 cifra_hill = "abcdefghijklmnopqrstuvwxyz"
 chave = [[4, 3], [1, 2]]
 
+def multip(matriz, pares):
+    return [
+        (matriz[0][0] * pares[0] + matriz[0][1] * pares[1]) % 26,
+        (matriz[1][0] * pares[0] + matriz[1][1] * pares[1]) % 26
+    ]
+
+
 def criptografia(cifra_hill, texto, chave):
     texto = texto.replace(" ", "").lower()
     if len(texto) % 2 != 0:
