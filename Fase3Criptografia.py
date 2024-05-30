@@ -1,14 +1,22 @@
 cifra_hill = "abcdefghijklmnopqrstuvwxyz"
-chaveinv = [[42, -63],[-21, 84]]
+chave = [[4, 3], [1, 2]]
 
-def descriptografia(cripto, cifra_hill, chaveinv): 
+def criptografia(cifra_hill, texto, chave):
+    texto = texto.replace(" ", "").lower()
+    if len(texto) % 2 != 0:
+        texto += texto[-1]
     pares = []
-    for i in range(0, len(cripto), 2):
-        p1 = cifra_hill.index(cripto[i])
-        p2 = cifra_hill.index(cripto[i+1])
+    for i in range(0, len(texto), 2):
+        p1 = cifra_hill.index(texto[i])
+        p2 = cifra_hill.index(texto[i+1])
         pares.append([p1, p2])
-    descripto = ""
+    cripto = ""
     for par in pares:
-        b = multip(chaveinv, par)
-        descripto += cifra_hill[b[0]] + cifra_hill[b[1]]
-    return descripto
+        a = multip(chave, par)
+        cripto += cifra_hill[a[0]] + cifra_hill[a[1]]
+    
+    return cripto
+
+texto = input("insira a mensagem a ser criptografada:")
+textocripto = criptografia(texto, chave)
+print('texto criptografado:', textocripto)
