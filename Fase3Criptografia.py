@@ -1,5 +1,6 @@
 cifra_hill = "abcdefghijklmnopqrstuvwxyz"
 chave = [[4, 3], [1, 2]]
+chaveinv = [[42, -63],[-21, 84]]
 
 def multip(matriz, pares):
     return [
@@ -23,7 +24,6 @@ def criptografia(texto, chave):
     
     return cripto
 
-chaveinv = [[42, -63],[-21, 84]]
 def descriptografia(cripto): 
     pares = []
     for i in range(0, len(cripto), 2):
@@ -36,9 +36,8 @@ def descriptografia(cripto):
         descripto += cifra_hill[b[0]] + cifra_hill[b[1]]
     return descripto
 
-texto = input("insira a mensagem a ser criptografada:")
-textocripto = criptografia(texto, chave)
-print('texto criptografado:', textocripto)
-textodescripto = descriptografia(textocripto)
-print('texto descriptografado:', textodescripto)
-
+texto = input("insira a mensagem a ser criptografada: ")
+texto_cripto = criptografia(texto, chave)
+print('texto criptografado:', texto_cripto)
+texto_descripto = descriptografia(texto_cripto)
+print('texto descriptografado:', texto_descripto)
