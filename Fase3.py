@@ -37,21 +37,20 @@ def descriptografia(cripto):
     return descripto
 
 def menu():
-    escolha = 1
-    while escolha != 0:
-        escolha = int(input('O que deseja fazer?\n[1] Inserir Produtos\n[2] Remover Produtos\n[3] Alterar Produtos\n[4] Listar Produtos\n[0] Sair\n:'))
-        if escolha == 1:
-            inserir()
-        elif escolha == 2:
-            apagar()
-        elif escolha == 3:
-            alterar()
-        elif escolha == 4:
-            listar()
-        elif escolha == 0:
-            print('Saindo...')
-        else:
-            print('Opção inválida! Por favor, escolha uma opção válida.')
+    escolha = int(input('O que deseja fazer?\n[1] Inserir Produtos\n[2] Remover Produtos\n[3] Alterar Produtos\n[4] Listar Produtos\n[0] Sair\n:'))
+    while escolha < 0 or escolha > 4:
+        print('Opção inválida! Por favor, tente novamente.')
+        escolha = int(input('O que deseja fazer?\n[1] Inserir Produtos\n[2] Remover Produtos\n[3] Alterar Produtos\n[4] Listar Produtos\n[0] Sair\n:'))        
+    if escolha == 1:
+        inserir()
+    elif escolha == 2:
+        apagar()
+    elif escolha == 3:
+        alterar()
+    elif escolha == 4:
+        listar()
+    else:
+        print('Saindo...')
         
 def inserir():
     cursor.execute("""select distinct codigo_prod from tabela_produtos""")
