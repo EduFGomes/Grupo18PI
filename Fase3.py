@@ -1,4 +1,3 @@
-
 import getpass
 import oracledb
 
@@ -78,13 +77,23 @@ def inserir():
         values ({cod}, '{Inome}', '{Idescricao}', {Icp}, {Icf}, {Icv}, {Iiv}, {Iml})""")
         print('Item inserido com sucesso!')
         conexao.commit()
-        menu()
+    menu()
        
 def apagar():
     def apagar_produto_por_nome(cursor, nome_produto):
         try:
+            cursor.execute("SELECT codigo_prod FROM tabela_produtos WHERE nome = :nome_produto", {'nome_produto': nome_produto})
+            codigo_produto = cursor.fetchone()[0]
             cursor.execute("DELETE FROM tabela_produtos WHERE nome = :nome_produto", {'nome_produto': nome_produto})
             print("Produto", nome_produto, "foi removido.")
+            cursor.execute("""select distinct codigo_prod from tabela_produtos""")
+            tabela = cursor.fetchall()
+            for cod in range (codigo_produto + 1, len(tabela) + 2):
+                cursor.execute (f"""
+                    update tabela_produtos 
+                    set codigo_prod = '{cod - 1}'
+                    where codigo_prod = '{cod}'
+                    """)
             conexao.commit()
         except cx_Oracle.Error as error:
             print("Erro ao apagar produto:", error)
@@ -98,6 +107,14 @@ def apagar():
             if confirmacao.lower() == "sim":
                 cursor.execute("DELETE FROM tabela_produtos WHERE codigo_prod = :codigo_produto", {'codigo_produto': codigo_produto})
                 print("Produto", nome_produto, "de código", codigo_produto, "foi removido.")
+                cursor.execute("""select distinct codigo_prod from tabela_produtos""")
+                tabela = cursor.fetchall()
+                for cod in range (codigo_produto + 1, len(tabela) + 2):
+                    cursor.execute (f"""
+                        update tabela_produtos 
+                        set codigo_prod = '{cod - 1}'
+                        where codigo_prod = '{cod}'
+                        """)
                 conexao.commit()
             else:
                 print("Operação cancelada.")
@@ -125,13 +142,13 @@ def apagar():
     print("2. Remover pelo código do produto")
     print("3. Remover todos os produtos")
     print("4. Voltar ao menu")
-    opcao = input("Escolha a opção desejada (1, 2 ou 3): ")
+    opcao = int(input("Escolha a opção desejada (1, 2 ou 3): "))
         
     while opcao < 1 and opcao > 4:   
-    print("Opção inválida.") 
-    opcao = input("Escolha a opção desejada (1, 2, 3 ou 4): ")
+        print("Opção inválida.") 
+        opcao = input("Escolha a opção desejada (1, 2, 3 ou 4): ")
         
-    if opcao == "1":
+    if opcao == 1:
         produto_nome = input("Digite o nome do produto que deseja remover: ")
         confirmacao = input(f"Tem certeza que deseja remover o produto '{produto_nome}' ? (Sim/Não): ")
         if confirmacao.lower() == "sim":
@@ -140,7 +157,7 @@ def apagar():
             print("Operação cancelada.")
             apagar()
         
-    elif opcao == "2":
+    elif opcao == 2:
         try:
             produto_codigo = int(input("Digite o código do produto que deseja remover: "))
             apagar_produto_por_codigo(cursor, produto_codigo)
@@ -148,10 +165,10 @@ def apagar():
             print("Digite um número inteiro válido para o código do produto.")
             apagar()
         
-    elif opcao == "3":
+    elif opcao == 3:
         apagar_todos_produtos(cursor)
         
-    elif opcao == "4":
+    elif opcao == 4:
         menu()
 
 def alterar():   
@@ -172,12 +189,12 @@ def alterar():
                         set {coluna} = '{valorNovo}'
                         where {coluna} = '{valorAntigo}'
                         """)                     
-        print ('Valor atualizado com sucesso!')
+        print ('Nome/Valor atualizado com sucesso!')
         conexao.commit()
         navegarAlteracoes()
 
 
-    mainAlteracoes()
+    navegarAlteracoes()
 
 def listar():
     cursor.execute("""select distinct codigo_prod from tabela_produtos""")
@@ -239,9 +256,9 @@ def listar():
 
 try:
     conexao = oracledb.connect(
-    user = "TESTE",
-    password = "teste",
-    dsn = 'localhost/XEPDB1')
+    user = "BD150224132",
+    password = "Crcud6",
+    dsn = '172.16.12.14/xe')
 except Exception as erro:
     print("Erro ao conectar", erro)
 else:
