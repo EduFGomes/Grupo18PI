@@ -95,6 +95,7 @@ def apagar():
                     where codigo_prod = '{cod}'
                     """)
             conexao.commit()
+            menu()
         except cx_Oracle.Error as error:
             print("Erro ao apagar produto:", error)
             apagar()
@@ -116,6 +117,7 @@ def apagar():
                         where codigo_prod = '{cod}'
                         """)
                 conexao.commit()
+                menu()
             else:
                 print("Operação cancelada.")
                 apagar()
@@ -130,6 +132,7 @@ def apagar():
                 cursor.execute("DELETE FROM tabela_produtos")
                 print("Todos os produtos foram removidos.")
                 conexao.commit()
+                menu()
             else:
                 print("Operação cancelada.")
                 apagar()
