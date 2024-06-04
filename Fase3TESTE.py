@@ -48,7 +48,7 @@ def menu():
         alterar()
     elif escolha == 4:
         listar()
-    else:
+    elif escolha == 0:
         print('Saindo...')
         
 def inserir():
@@ -185,7 +185,7 @@ def alterar():
                 
     def alterarValor():
         print('Atributos disponíveis: "nome", "descricao", "custo_prod", "custo_fixo", "comissao_venda", "impostos" e "rentabilidade".')
-        coluna = str(input ('Nome do atributo (digite em minúsculo): '))
+        coluna = str(input('Nome do atributo (digite em minúsculo): '))
         if coluna == 'descricao':
             cursor.execute("""select distinct codigo_prod from tabela_produtos""")
             tabela = cursor.fetchall()
@@ -235,13 +235,19 @@ def alterar():
             else:
                 print ('Valor atualizado com sucesso!')
         elif coluna == 'custo_prod':
-            valorAntigo = float(input ('Valor antigo: '))
+            cursor.execute("""select distinct codigo_prod from tabela_produtos""")
+            tabela = cursor.fetchall()
+            for cod in range (1, len(tabela)+1):
+                cursor.execute(f"""select NOME from tabela_produtos where codigo_prod = {cod}""")
+                nome = cursor.fetchall()
+                print(nome[0][0])
+            resp = input('Escolha qual produto você deseja alterar o valor: ')
             valorNovo = float(input ('Valor novo: '))
             cursor.execute (f"""
                             update tabela_produtos 
                             set {coluna} = '{valorNovo}'
-                            where {coluna} = '{valorAntigo}'
-                            """)                     
+                            where nome = '{resp}'
+                            """)
             print ('Valor atualizado com sucesso!')
         else:
             valorAntigo = str(input ('Nome antigo: '))
@@ -291,7 +297,7 @@ def listar():
             print(f"A. Preço de venda              {pv:6.2f} | {'   100%':6}")
             print(f"B. Custo de aquisição          {cp[0][0]:6.2f} | {(cp[0][0] * 100) / pv:6.2f}%")
             print(f"C. Receita Bruta               {pv - cp[0][0]:6.2f} | {100 - ((cp[0][0] * 100) / pv):6.2f}%")
-            print(f"D. Custo fixo/Administrativo   {(pv * cf[0][0]) / 100:6.2f} | {cv[0][0]:6.2f}%")
+            print(f"D. Custo fixo/Administrativo   {(pv * cf[0][0]) / 100:6.2f} | {cf[0][0]:6.2f}%")
             print(f"E. Comissão de vendas          {(pv * cv[0][0]) / 100:6.2f} | {cv[0][0]:6.2f}%")
             print(f"F. Impostos                    {(pv * iv[0][0]) / 100:6.2f} | {iv[0][0]:6.2f}%")
             print(f"G. Outros custos               {((pv * cf[0][0]) / 100) + ((pv * cv[0][0]) / 100) + ((pv * iv[0][0]) / 100):6.2f} | {(cf[0][0] + cv[0][0] + iv[0][0]):6.2f}%")
